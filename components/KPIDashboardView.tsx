@@ -1,6 +1,6 @@
 import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
-import { ChevronDown, FileText, Filter, Calendar } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, AreaChart, Area } from 'recharts';
+import { ChevronDown, FileText, Filter, Calendar, TrendingUp } from 'lucide-react';
 
 // --- Mock Data ---
 
@@ -32,6 +32,16 @@ const performanceData = [
   { name: 'Des Huy', lv1: 1, lv2: 38, lv3: 0, total: 39 },
   { name: 'Des Thư', lv1: 0, lv2: 9, lv3: 0, total: 9 },
   { name: 'Test Bot', lv1: 0, lv2: 4, lv3: 3, total: 7 },
+];
+
+const trendData = [
+  { name: '01/12', products: 12 },
+  { name: '05/12', products: 19 },
+  { name: '10/12', products: 15 },
+  { name: '15/12', products: 28 },
+  { name: '20/12', products: 32 },
+  { name: '25/12', products: 45 },
+  { name: '30/12', products: 38 },
 ];
 
 const LeaderboardRow = ({ rank, name, data }: { rank: number, name: string, data: typeof performanceData[0] }) => {
@@ -116,8 +126,8 @@ const KPIDashboardView: React.FC = () => {
         ))}
       </div>
 
-      {/* Middle Row: Donut Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      {/* Middle Row: Donut Charts & Area Chart */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Chart 1: Levels */}
         <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
@@ -126,15 +136,15 @@ const KPIDashboardView: React.FC = () => {
                     Tỷ lệ Level
                 </h3>
             </div>
-            <div className="h-[250px] w-full">
+            <div className="h-[200px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
                             data={levelData}
                             cx="50%"
                             cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
+                            innerRadius={50}
+                            outerRadius={70}
                             paddingAngle={5}
                             dataKey="value"
                             stroke="none"
@@ -161,15 +171,15 @@ const KPIDashboardView: React.FC = () => {
                     Trạng thái báo cáo
                 </h3>
             </div>
-            <div className="h-[250px] w-full">
+            <div className="h-[200px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
                             data={statusData}
                             cx="50%"
                             cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
+                            innerRadius={50}
+                            outerRadius={70}
                             paddingAngle={5}
                             dataKey="value"
                             stroke="none"
@@ -184,6 +194,56 @@ const KPIDashboardView: React.FC = () => {
                         />
                         <Legend verticalAlign="bottom" height={36} iconType="circle"/>
                     </PieChart>
+                </ResponsiveContainer>
+            </div>
+        </div>
+
+        {/* New Chart: Productivity Trend (Area Chart) */}
+        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white font-semibold flex items-center gap-2">
+                    <span className="p-1 rounded bg-indigo-500/20 text-indigo-400"><TrendingUp size={14} /></span>
+                    Xu hướng
+                </h3>
+                <select className="bg-slate-950 border border-slate-800 text-slate-400 text-[10px] rounded px-1.5 py-0.5 focus:outline-none">
+                   <option>7 ngày</option>
+                </select>
+            </div>
+            <div className="h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={trendData}>
+                    <defs>
+                        <linearGradient id="colorProducts" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                        </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} opacity={0.5} />
+                    <XAxis 
+                        dataKey="name" 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{fill: '#94a3b8', fontSize: 10}} 
+                        dy={5}
+                    />
+                    <YAxis 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{fill: '#94a3b8', fontSize: 10}} 
+                    />
+                    <Tooltip 
+                        contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', borderRadius: '8px', color: '#fff' }}
+                        itemStyle={{ color: '#c4b5fd' }}
+                    />
+                    <Area 
+                        type="monotone" 
+                        dataKey="products" 
+                        stroke="#8b5cf6" 
+                        strokeWidth={2}
+                        fillOpacity={1} 
+                        fill="url(#colorProducts)" 
+                    />
+                    </AreaChart>
                 </ResponsiveContainer>
             </div>
         </div>
