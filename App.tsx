@@ -3,8 +3,9 @@ import Navbar from './components/Navbar';
 import HomeView from './components/HomeView';
 import AdminView from './components/AdminView';
 import KPIDashboardView from './components/KPIDashboardView';
+import DodgeprintAnalyticsView from './components/DodgeprintAnalyticsView';
 
-type ViewState = 'home' | 'admin' | 'kpi';
+type ViewState = 'home' | 'admin' | 'kpi' | 'dodgeprint';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -26,6 +27,7 @@ function App() {
         {currentView === 'home' && <HomeView onNavigate={(view) => setCurrentView(view)} />}
         {currentView === 'admin' && <AdminView />}
         {currentView === 'kpi' && <KPIDashboardView />}
+        {currentView === 'dodgeprint' && <DodgeprintAnalyticsView />}
       </main>
 
       {/* Footer */}

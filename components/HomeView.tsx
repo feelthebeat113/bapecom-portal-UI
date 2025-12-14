@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Palette, HardDrive, Users, BarChart3, ShoppingBag, Settings, Search, Lock, ArrowRight } from 'lucide-react';
+import { Palette, HardDrive, Users, BarChart3, ShoppingBag, Settings, Search, Lock, ArrowRight, Store } from 'lucide-react';
 
 interface AppCardProps {
   title: string;
@@ -50,13 +50,23 @@ const apps = [
     target: 'kpi'
   },
   {
+    id: 'dodgeprint',
+    title: 'Dodgeprint Analytics',
+    description: 'Real-time order monitoring & revenue analytics',
+    category: 'Management',
+    status: 'live',
+    icon: <Store size={24} />,
+    color: 'from-orange-500 to-amber-500',
+    target: 'dodgeprint'
+  },
+  {
     id: 'orders',
     title: 'Orders Manager',
     description: 'Quản lý đơn hàng và khách hàng',
     category: 'Management',
     status: 'coming_soon',
     icon: <ShoppingBag size={24} />,
-    color: 'from-amber-500 to-orange-500'
+    color: 'from-slate-600 to-slate-500'
   },
   {
     id: 'admin',
@@ -91,7 +101,7 @@ const StatusBadge = ({ status }: { status: string }) => {
 };
 
 interface HomeViewProps {
-  onNavigate: (view: 'home' | 'admin' | 'kpi') => void;
+  onNavigate: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint') => void;
 }
 
 const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
@@ -153,7 +163,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         {filteredApps.map((app) => (
           <div 
             key={app.id}
-            onClick={() => (app.target === 'admin' || app.target === 'kpi') ? onNavigate(app.target as any) : null}
+            onClick={() => (app.target === 'admin' || app.target === 'kpi' || app.target === 'dodgeprint') ? onNavigate(app.target as any) : null}
             className={`group relative bg-slate-800/20 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 transition-all duration-300 ${
               app.status === 'coming_soon' 
                 ? 'opacity-70 cursor-not-allowed' 

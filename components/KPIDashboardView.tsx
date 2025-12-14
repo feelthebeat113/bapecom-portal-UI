@@ -44,7 +44,13 @@ const trendData = [
   { name: '30/12', products: 38 },
 ];
 
-const LeaderboardRow = ({ rank, name, data }: { rank: number, name: string, data: typeof performanceData[0] }) => {
+interface LeaderboardRowProps {
+  rank: number;
+  name: string;
+  data: typeof performanceData[0];
+}
+
+const LeaderboardRow: React.FC<LeaderboardRowProps> = ({ rank, name, data }) => {
   const getRankIcon = (r: number) => {
     if (r === 1) return <span className="text-xl">🥇</span>;
     if (r === 2) return <span className="text-xl">🥈</span>;
