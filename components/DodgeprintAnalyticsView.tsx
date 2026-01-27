@@ -1,256 +1,263 @@
 import React from 'react';
 import { 
   Store, 
-  ShoppingCart, 
-  DollarSign, 
+  ShoppingBag, 
   TrendingUp, 
   RefreshCw, 
-  Package, 
-  Clock, 
-  ExternalLink 
+  ChevronDown,
+  BarChart3,
+  ListFilter
 } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  Cell
-} from 'recharts';
 
 // --- Mock Data ---
 
-const summaryStats = [
-  { label: '7-Day Orders', value: '3,853', icon: <ShoppingCart className="text-white/30" size={40} />, gradient: 'from-blue-500 to-cyan-500' },
-  { label: '7-Day Revenue', value: '$119,242.02', icon: <DollarSign className="text-white/30" size={40} />, gradient: 'from-green-500 to-emerald-500' },
-  { label: 'Active Shops', value: '87', icon: <Store className="text-white/30" size={40} />, gradient: 'from-orange-500 to-amber-500' },
-  { label: 'Avg Order Value', value: '$30.95', icon: <TrendingUp className="text-white/30" size={40} />, gradient: 'from-purple-500 to-pink-500' },
-];
-
-const topShopsData = [
-  { name: 'AnyeArtCollection', value: 3400, color: '#8b5cf6' },
-  { name: 'DoodlePrintsLab', value: 3000, color: '#a78bfa' },
-  { name: 'sneakerteefind', value: 2750, color: '#c4b5fd' },
-  { name: 'HavenBoutiqueGoods', value: 2700, color: '#ddd6fe' },
-  { name: 'MMEGlobalShop', value: 2550, color: '#ede9fe' },
-];
-
-const topProducts = [
-  { id: 1, name: 'Custom Bananas Baseball Jersey, Personalized Savannah Fan Gift', qty: 51, revenue: '$1,706.76' },
-  { id: 2, name: 'Funny Diet Coke Acrylic Ornament, Xmas Decor', qty: 49, revenue: '$1,020.42' },
-  { id: 3, name: 'Customized Dog Memorial Frame With Pet Portrait Photo', qty: 47, revenue: '$1,725.10' },
-  { id: 4, name: 'Funny Diet Coke Acrylic Ornament, Xmas Decor, Christmas Decor', qty: 42, revenue: '$971.38' },
-  { id: 5, name: 'Hungry Caterpillar Birthday Shirt, Family Matching Outfit', qty: 40, revenue: '$1,102.40' },
-  { id: 6, name: 'Funny Diet Coke Acrylic Ornament, Xmas Decor, Christmas Gift', qty: 38, revenue: '$887.18' },
-  { id: 7, name: 'Custom Name and Number Sonic Baseball Jersey', qty: 35, revenue: '$1,057.05' },
-  { id: 8, name: 'Funny Diet Coke Fridge Cigs Acrylic Christmas Ornament', qty: 27, revenue: '$621.30' },
-  { id: 9, name: 'Minnie Mouse Ornament, Personalized Christmas Tree Decoration', qty: 27, revenue: '$466.95' },
-  { id: 10, name: 'Custom Name Six Seven Ornament, Kids Christmas Ornament', qty: 26, revenue: '$339.18' },
+const topShops = [
+  { name: 'RigoArtCollection', orders: 26, revenue: '$979.72' },
+  { name: 'TaajirBillah', orders: 21, revenue: '$596.91' },
+  { name: 'EthanFashionDesign', orders: 17, revenue: '$587.57' },
+  { name: 'EnyeBiz', orders: 14, revenue: '$475.01' },
+  { name: 'MMEGlobalShop', orders: 11, revenue: '$416.59' },
+  { name: 'Joesu', orders: 12, revenue: '$362.95' },
+  { name: 'GlowGardenCrafts', orders: 11, revenue: '$344.85' },
+  { name: 'Glimmeraesa', orders: 6, revenue: '$254.64' },
 ];
 
 const recentOrders = [
-  { time: '23:59:52', id: '3894245868', shop: 'BellePiecesStore', item: "It's a Wonderful Life Movie Poster, Black and White", original: 'USD 5.26', usd: '$5.26' },
-  { time: '23:59:31', id: '3912461551', shop: 'GlowGardenCrafts', item: 'Johnny Cash Vintage Music Shirt, Comfort Colors Tee', original: 'USD 27.26', usd: '$27.26' },
-  { time: '23:59:28', id: '3910256367', shop: 'KDigitalArtsShop', item: 'Custom Hercules Meg Jersey Shirt, Hercules Baseball Jersey', original: 'USD 29.31', usd: '$29.31' },
-  { time: '23:59:28', id: '3824829437', shop: 'Noodstocks', item: 'Tar Movie Shirt, Tar Vintage Shirt, Tar Fan Shirt', original: 'AUD 56.30', usd: '$36.59' },
-  { time: '23:59:20', id: '3898173362', shop: 'HavenBoutiqueGoods', item: 'Jingle My Bells Sweater – Funny Xmas Ugly Sweater', original: 'USD 51.19', usd: '$51.19' },
-  { time: '23:59:13', id: '3900231230', shop: 'TheStitchedPalette', item: 'Mickey Mouse Hockey Jersey, Disney Mickey Hockey', original: 'USD 43.61', usd: '$43.61' },
-  { time: '23:59:11', id: '3916406681', shop: 'RigoArtCollection', item: 'Talking Heads Comfort Colors Tee, Rock Band Retro Shirt', original: 'USD 34.22', usd: '$34.22' },
-  { time: '23:58:05', id: '3788725670', shop: 'LumiCatcher', item: 'Pet Memorial Frame: Custom Engraved Wood', original: 'USD 41.24', usd: '$41.24' },
-  { time: '23:58:00', id: '3916405255', shop: 'SultanxStudio', item: 'Pearl Movie Poster, Ti West Film, Mid-Century Modern', original: 'USD 28.54', usd: '$28.54' },
-  { time: '23:57:41', id: '3909116418', shop: 'Joesu', item: 'Breaking Bad Poster / Movie Poster / Midcentury Modern', original: 'AUD 43.00', usd: '$27.95' },
+  { 
+    id: '3922136175', 
+    date: '2025-12-15', 
+    time: '23:51', 
+    shop: 'UnlimitedAinun', 
+    item: 'Toadette Bootleg T-Shirt, Super Mario Nintendo Unisex Tee', 
+    image: 'https://i.etsystatic.com/26673686/r/il/d337c7/5607563173/il_1588xN.5607563173_q8r1.jpg',
+    price: '$25.98' 
+  },
+  { 
+    id: '3922135511', 
+    date: '2025-12-15', 
+    time: '23:50', 
+    shop: 'SultanxStudio', 
+    item: 'Cincinnati Bengals Poster, Bengals Print, Mid-Century Modern Art, Retro Modern Poster', 
+    image: 'https://i.etsystatic.com/40368351/r/il/66b04a/5341355866/il_1588xN.5341355866_1z5k.jpg',
+    price: '$9.99' 
+  },
+  { 
+    id: '3922135187', 
+    date: '2025-12-15', 
+    time: '23:50', 
+    shop: 'kardayLLC', 
+    item: 'Psych Tv Series T-Shirt, Retro Film Shirt, Comfort Colors Unisex T-Shirt', 
+    image: 'https://i.etsystatic.com/34827981/r/il/337318/5424578130/il_1588xN.5424578130_o25s.jpg',
+    price: '$25.98' 
+  },
+  { 
+    id: '3922133461', 
+    date: '2025-12-15', 
+    time: '23:48', 
+    shop: 'CoolArtByJacob', 
+    item: 'Steve McQueen Poster, Vintage Black and White Photography Print (Digital Download)', 
+    image: 'https://i.etsystatic.com/26428795/r/il/8f6a9c/4621021465/il_1588xN.4621021465_b6o3.jpg',
+    price: '$5.45' 
+  },
+  { 
+    id: '3922130141', 
+    date: '2025-12-15', 
+    time: '23:45', 
+    shop: 'AlejandroStoreDesign', 
+    item: 'Funny &#39;Friends&#39; Bathroom Poster, Meme Restroom Art (Digital Download)', 
+    image: 'https://i.etsystatic.com/32466038/r/il/d7e4f1/3655516946/il_1588xN.3655516946_2t0n.jpg',
+    price: '$4.20' 
+  },
+  { 
+    id: '3922128157', 
+    date: '2025-12-15', 
+    time: '23:43', 
+    shop: 'InfoproductcoGoods', 
+    item: 'Embroidered Ateez Seonghwa Sweatshirt, Aniteez Kpop T-Shirt', 
+    image: 'https://i.etsystatic.com/47953282/r/il/c8f2b3/6082498263/il_1588xN.6082498263_d0w8.jpg',
+    price: '$39.50' 
+  },
+  { 
+    id: '3912875924', 
+    date: '2025-12-15', 
+    time: '23:32', 
+    shop: 'MMEGlobalShop', 
+    item: 'Custom Bananas Baseball Jersey, Personalized Savannah Fan Gift', 
+    image: 'https://i.etsystatic.com/34664478/r/il/5b7364/5253896582/il_1588xN.5253896582_7f3l.jpg',
+    price: '$31.98' 
+  },
+  { 
+    id: '3922113401', 
+    date: '2025-12-15', 
+    time: '23:28', 
+    shop: 'kardayLLC', 
+    item: 'Psych Tv Series T-Shirt, Retro Film Shirt, Comfort Colors Unisex T-Shirt', 
+    image: 'https://i.etsystatic.com/34827981/r/il/337318/5424578130/il_1588xN.5424578130_o25s.jpg',
+    price: '$31.98' 
+  },
 ];
 
 const DodgeprintAnalyticsView: React.FC = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500 space-y-8">
       
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-            <Store className="w-8 h-8 text-orange-400" />
-            Dodgeprint Analytics
-          </h1>
-          <p className="text-slate-400 mt-1">Real-time order monitoring & revenue analytics</p>
-        </div>
-        
-        <div className="flex items-center gap-4">
-          <div className="flex bg-slate-800 rounded-lg p-1">
-            <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-700">Today</button>
-            <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-700">Yesterday</button>
-            <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-purple-500 text-white shadow-lg shadow-purple-500/20">7 Days</button>
-            <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-700">30 Days</button>
+          <div className="flex items-center gap-3 mb-2">
+            <ShoppingBag className="w-8 h-8 text-indigo-500" />
+            <h1 className="text-3xl font-bold text-white tracking-tight">Etsy Dashboard</h1>
           </div>
-          
-          <label className="flex items-center gap-2 text-sm text-slate-400 cursor-pointer select-none">
-            <input type="checkbox" className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-purple-500 focus:ring-purple-500 accent-purple-500" defaultChecked />
-            Auto-refresh
-          </label>
-          
-          <button className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 disabled:opacity-50 transition-colors shadow-lg">
-            <RefreshCw className="w-4 h-4" />
+          <p className="text-slate-400 text-sm font-medium">
+            Dodgeprint orders & revenue • <span className="text-slate-300">2025-12-15 to 2025-12-15</span> (America/New_York)
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Tabs */}
+          <div className="bg-slate-900 border border-slate-700 rounded-lg p-1 flex">
+            <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white shadow-sm">
+              Orders
+            </button>
+            <button className="px-4 py-1.5 rounded-md text-sm font-medium text-slate-400 hover:text-white transition-colors">
+              Products
+            </button>
+            <button className="px-4 py-1.5 rounded-md text-sm font-medium text-slate-400 hover:text-white transition-colors">
+              Finance
+            </button>
+          </div>
+
+          {/* Filters */}
+          <button className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 hover:border-slate-600 transition-colors">
+            <span className="text-slate-500">Seller</span>
+            <span className="font-medium text-white">Huy</span>
+            <ChevronDown size={14} className="text-slate-500" />
+          </button>
+
+          <button className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 hover:border-slate-600 transition-colors">
+            <span className="text-slate-500">Time</span>
+            <span className="font-medium text-white">2025-12-15</span>
+          </button>
+
+          <button className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-300 hover:border-slate-600 hover:bg-slate-800 transition-colors">
+            <RefreshCw size={14} />
             Refresh
           </button>
         </div>
       </div>
-      
-      <p className="text-xs text-slate-500">Last updated: {new Date().toLocaleTimeString()} • Auto-refreshing every 60s</p>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {summaryStats.map((stat, idx) => (
-          <div key={idx} className={`bg-gradient-to-br ${stat.gradient} rounded-xl p-5 shadow-lg transform transition-transform hover:scale-[1.02]`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-white/80 text-sm font-medium">{stat.label}</p>
-                <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
-              </div>
-              {stat.icon}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Main Grid: Charts & Top Products */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        {/* Top 5 Shops Chart */}
-        <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 flex flex-col">
-          <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-purple-400" />
-            Top 5 Shops by Revenue
-          </h2>
-          <div className="flex-1 min-h-[280px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                layout="vertical"
-                data={topShopsData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#334155" />
-                <XAxis type="number" stroke="#94a3b8" fontSize={12} tickFormatter={(value) => `$${value}`} />
-                <YAxis 
-                    dataKey="name" 
-                    type="category" 
-                    width={100} 
-                    stroke="#94a3b8" 
-                    fontSize={12}
-                    tick={{fill: '#94a3b8'}}
-                />
-                <Tooltip 
-                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
-                    contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', borderRadius: '8px', color: '#fff' }}
-                />
-                <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={32}>
-                  {topShopsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          
-          {/* Custom Legend */}
-          <div className="mt-4 flex flex-wrap gap-4 justify-center">
-             {topShopsData.map((shop, i) => (
-                 <div key={i} className="flex items-center gap-2 text-xs">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: shop.color }}></div>
-                    <span className="text-slate-400">{shop.name}</span>
-                 </div>
-             ))}
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 relative group hover:border-slate-700 transition-all">
+          <p className="text-slate-400 text-sm font-medium mb-2">Orders</p>
+          <div className="flex items-end justify-between">
+             <h3 className="text-3xl font-bold text-white">241</h3>
+             <BarChart3 className="text-slate-600 group-hover:text-indigo-500 transition-colors mb-1" size={32} />
           </div>
         </div>
 
-        {/* Top Products Table */}
-        <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 flex flex-col">
-          <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Package className="w-5 h-5 text-orange-400" />
-            Top Products by Quantity
-          </h2>
-          <div className="overflow-x-auto flex-1">
-            <table className="w-full">
-              <thead>
-                <tr className="text-slate-400 text-sm border-b border-slate-700">
-                  <th className="text-left py-3 px-2 font-medium">#</th>
-                  <th className="text-left py-3 px-2 font-medium">Product Name</th>
-                  <th className="text-right py-3 px-2 font-medium">Qty</th>
-                  <th className="text-right py-3 px-2 font-medium">Revenue</th>
-                </tr>
-              </thead>
-              <tbody>
-                {topProducts.map((product) => (
-                  <tr key={product.id} className="border-b border-slate-700/50 hover:bg-slate-800/50 transition-colors">
-                    <td className="py-3 px-2 text-slate-500 font-mono text-sm">{product.id}</td>
-                    <td className="py-3 px-2">
-                      <span className="text-white truncate block max-w-[200px] xl:max-w-[280px]" title={product.name}>
-                        {product.name}
-                      </span>
-                    </td>
-                    <td className="py-3 px-2 text-right">
-                      <span className="text-emerald-400 font-semibold">{product.qty}</span>
-                    </td>
-                    <td className="py-3 px-2 text-right">
-                      <span className="text-purple-400 font-mono">{product.revenue}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 relative group hover:border-slate-700 transition-all">
+          <p className="text-slate-400 text-sm font-medium mb-2">Revenue</p>
+          <div className="flex items-end justify-between">
+             <h3 className="text-3xl font-bold text-white">$7,053.67</h3>
+             <TrendingUp className="text-slate-600 group-hover:text-emerald-500 transition-colors mb-1" size={32} />
           </div>
         </div>
 
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 relative group hover:border-slate-700 transition-all">
+          <p className="text-slate-400 text-sm font-medium mb-2">Active Shops</p>
+          <div className="flex items-end justify-between">
+             <h3 className="text-3xl font-bold text-white">38</h3>
+             <Store className="text-slate-600 group-hover:text-orange-500 transition-colors mb-1" size={32} />
+          </div>
+        </div>
+
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 relative group hover:border-slate-700 transition-all">
+          <p className="text-slate-400 text-sm font-medium mb-2">Avg Order</p>
+          <div className="flex items-end justify-between">
+             <h3 className="text-3xl font-bold text-white">$29.27</h3>
+             <ShoppingBag className="text-slate-600 group-hover:text-blue-500 transition-colors mb-1" size={32} />
+          </div>
+        </div>
       </div>
 
-      {/* Recent Orders Table */}
-      <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
-        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-blue-400" />
-            Recent Orders (20)
-        </h2>
+      {/* Top Shops Table */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <div className="p-6 border-b border-slate-800">
+            <h3 className="text-lg font-bold text-white">Top Shops</h3>
+        </div>
         <div className="overflow-x-auto">
             <table className="w-full">
-              <thead>
-                <tr className="text-slate-400 text-sm border-b border-slate-700">
-                  <th className="text-left py-3 px-3 font-medium">Time</th>
-                  <th className="text-left py-3 px-3 font-medium">Order ID</th>
-                  <th className="text-left py-3 px-3 font-medium">Shop</th>
-                  <th className="text-left py-3 px-3 font-medium">Items</th>
-                  <th className="text-right py-3 px-3 font-medium">Original</th>
-                  <th className="text-right py-3 px-3 font-medium">USD</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentOrders.map((order, idx) => (
-                    <tr key={idx} className="border-b border-slate-700/50 hover:bg-slate-800/50 transition-colors">
-                        <td className="py-3 px-3">
-                            <span className="text-slate-400 font-mono text-sm">{order.time}</span>
-                        </td>
-                        <td className="py-3 px-3">
-                             <a href="#" className="text-blue-400 hover:text-blue-300 flex items-center gap-1 font-mono text-sm group">
-                                {order.id}
-                                <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                             </a>
-                        </td>
-                        <td className="py-3 px-3">
-                             <span className="text-white truncate block max-w-[150px]" title={order.shop}>{order.shop}</span>
-                        </td>
-                        <td className="py-3 px-3">
-                             <div className="max-w-[200px] xl:max-w-[300px]">
-                                <span className="text-slate-300 text-sm truncate block" title={order.item}>{order.item}</span>
-                             </div>
-                        </td>
-                        <td className="py-3 px-3 text-right">
-                            <span className="text-slate-400 font-mono text-sm">{order.original}</span>
-                        </td>
-                        <td className="py-3 px-3 text-right">
-                            <span className="text-emerald-400 font-semibold font-mono">{order.usd}</span>
-                        </td>
+                <thead>
+                    <tr className="bg-slate-900 border-b border-slate-800 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th className="px-6 py-4 text-left">Shop</th>
+                        <th className="px-6 py-4 text-right">Orders</th>
+                        <th className="px-6 py-4 text-right">Revenue</th>
                     </tr>
-                ))}
-              </tbody>
+                </thead>
+                <tbody className="divide-y divide-slate-800">
+                    {topShops.map((shop, index) => (
+                        <tr key={index} className="hover:bg-slate-800/50 transition-colors">
+                            <td className="px-6 py-4 font-medium text-white">{shop.name}</td>
+                            <td className="px-6 py-4 text-right text-slate-300">{shop.orders}</td>
+                            <td className="px-6 py-4 text-right font-medium text-slate-200">{shop.revenue}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+      </div>
+
+      {/* Recent Orders */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+            <h3 className="text-lg font-bold text-white">Recent Orders</h3>
+            
+            <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-500 mr-2">Page 1</span>
+                <button className="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-xs font-medium text-slate-400 hover:text-white hover:border-slate-600 transition-colors">
+                    Prev
+                </button>
+                <button className="px-3 py-1 rounded bg-slate-800 border border-slate-700 text-xs font-medium text-slate-400 hover:text-white hover:border-slate-600 transition-colors">
+                    Next
+                </button>
+            </div>
+        </div>
+        <div className="overflow-x-auto">
+            <table className="w-full">
+                <thead>
+                    <tr className="bg-slate-900 border-b border-slate-800 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th className="px-6 py-4 text-left">Time</th>
+                        <th className="px-6 py-4 text-left">Order</th>
+                        <th className="px-6 py-4 text-left">Shop</th>
+                        <th className="px-6 py-4 text-left">Item</th>
+                        <th className="px-6 py-4 text-right">USD</th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800">
+                    {recentOrders.map((order, index) => (
+                        <tr key={index} className="hover:bg-slate-800/50 transition-colors">
+                            <td className="px-6 py-4 text-slate-400 text-xs font-mono">
+                                <div className="text-slate-300">{order.date}</div>
+                                <div>{order.time}</div>
+                            </td>
+                            <td className="px-6 py-4 text-slate-300 text-sm font-mono">{order.id}</td>
+                            <td className="px-6 py-4 font-medium text-white">{order.shop}</td>
+                            <td className="px-6 py-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded bg-slate-800 border border-slate-700 overflow-hidden flex-shrink-0">
+                                        {/* In a real app, use the actual image. Using a placeholder color for now if image fails or for styling consistency */}
+                                        <img src={order.image} alt="" className="w-full h-full object-cover" />
+                                    </div>
+                                    <span className="text-indigo-400 text-sm line-clamp-2 max-w-[300px]" title={order.item}>
+                                        {order.item}
+                                    </span>
+                                </div>
+                            </td>
+                            <td className="px-6 py-4 text-right font-medium text-white">{order.price}</td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
         </div>
       </div>

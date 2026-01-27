@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Palette, HardDrive, Users, BarChart3, ShoppingBag, Settings, Search, Lock, ArrowRight, Store } from 'lucide-react';
+import { Palette, HardDrive, Users, BarChart3, ShoppingBag, Settings, Search, Lock, ArrowRight, Store, FileText } from 'lucide-react';
 
 interface AppCardProps {
   title: string;
@@ -40,6 +40,16 @@ const apps = [
     color: 'from-purple-500 to-violet-500'
   },
   {
+    id: 'designer_report',
+    title: 'Designer Report',
+    description: 'Daily design production report and tracking',
+    category: 'Creative',
+    status: 'live',
+    icon: <FileText size={24} />,
+    color: 'from-indigo-500 to-blue-600',
+    target: 'designer_report'
+  },
+  {
     id: 'kpi',
     title: 'KPI Dashboard',
     description: 'Theo dõi và quản lý KPI cá nhân và team',
@@ -51,7 +61,7 @@ const apps = [
   },
   {
     id: 'dodgeprint',
-    title: 'Dodgeprint Analytics',
+    title: 'Etsy Dashboard',
     description: 'Real-time order monitoring & revenue analytics',
     category: 'Management',
     status: 'live',
@@ -101,7 +111,7 @@ const StatusBadge = ({ status }: { status: string }) => {
 };
 
 interface HomeViewProps {
-  onNavigate: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint') => void;
+  onNavigate: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report') => void;
 }
 
 const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
@@ -163,7 +173,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         {filteredApps.map((app) => (
           <div 
             key={app.id}
-            onClick={() => (app.target === 'admin' || app.target === 'kpi' || app.target === 'dodgeprint') ? onNavigate(app.target as any) : null}
+            onClick={() => (app.target) ? onNavigate(app.target as any) : null}
             className={`group relative bg-slate-800/20 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 transition-all duration-300 ${
               app.status === 'coming_soon' 
                 ? 'opacity-70 cursor-not-allowed' 

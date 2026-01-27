@@ -4,8 +4,9 @@ import HomeView from './components/HomeView';
 import AdminView from './components/AdminView';
 import KPIDashboardView from './components/KPIDashboardView';
 import DodgeprintAnalyticsView from './components/DodgeprintAnalyticsView';
+import DesignerReportView from './components/DesignerReportView';
 
-type ViewState = 'home' | 'admin' | 'kpi' | 'dodgeprint';
+type ViewState = 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -28,6 +29,7 @@ function App() {
         {currentView === 'admin' && <AdminView />}
         {currentView === 'kpi' && <KPIDashboardView />}
         {currentView === 'dodgeprint' && <DodgeprintAnalyticsView />}
+        {currentView === 'designer_report' && <DesignerReportView />}
       </main>
 
       {/* Footer */}

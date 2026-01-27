@@ -3,8 +3,8 @@ import { Home, Settings, Bell, Search, Menu } from 'lucide-react';
 
 interface NavbarProps {
   toggleSidebar?: () => void;
-  currentView?: 'home' | 'admin' | 'kpi' | 'dodgeprint';
-  onNavigate?: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint') => void;
+  currentView?: 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report';
+  onNavigate?: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report') => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, currentView = 'home', onNavigate }) => {
