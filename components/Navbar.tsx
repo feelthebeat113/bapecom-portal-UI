@@ -1,21 +1,21 @@
 import React from 'react';
-import { Home, Settings, Bell, Search, Menu } from 'lucide-react';
+import { Home, Settings, Bell, Search, Menu, UserCircle } from 'lucide-react';
 
 interface NavbarProps {
   toggleSidebar?: () => void;
-  currentView?: 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report';
-  onNavigate?: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report') => void;
+  currentView?: 'home' | 'admin' | 'kpi' | 'my_kpi' | 'dodgeprint' | 'designer_report' | 'project_board';
+  onNavigate?: (view: 'home' | 'admin' | 'kpi' | 'my_kpi' | 'dodgeprint' | 'designer_report' | 'project_board') => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, currentView = 'home', onNavigate }) => {
   
-  const handleNav = (e: React.MouseEvent, view: 'home' | 'admin') => {
+  const handleNav = (e: React.MouseEvent, view: any) => {
     e.preventDefault();
     if (onNavigate) onNavigate(view);
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full backdrop-blur-xl bg-slate-900/80 border-b border-slate-800">
+    <nav className="sticky top-0 z-50 w-full backdrop-blur-xl bg-slate-900/80 border-b border-slate-800 h-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left Side: Logo & Links */}
@@ -47,6 +47,18 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, currentView = 'home', on
               </a>
               <a 
                 href="#" 
+                onClick={(e) => handleNav(e, 'my_kpi')}
+                className={`flex items-center gap-2 text-sm font-medium transition-colors px-3 py-2 rounded-md ${
+                  currentView === 'my_kpi' 
+                    ? 'bg-white/10 text-white' 
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <UserCircle size={16} />
+                My KPI
+              </a>
+              <a 
+                href="#" 
                 onClick={(e) => handleNav(e, 'admin')}
                 className={`flex items-center gap-2 text-sm font-medium transition-colors px-3 py-2 rounded-md ${
                   currentView === 'admin' 
@@ -62,7 +74,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, currentView = 'home', on
 
           {/* Right Side: Profile & Actions */}
           <div className="flex items-center gap-4">
-            <div className="relative hidden md:block">
+            <div className="relative hidden lg:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
               <input 
                 type="text" 

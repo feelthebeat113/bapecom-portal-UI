@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Palette, HardDrive, Users, BarChart3, ShoppingBag, Settings, Search, Lock, ArrowRight, Store, FileText } from 'lucide-react';
+import { Palette, HardDrive, Users, BarChart3, ShoppingBag, Settings, Search, Lock, ArrowRight, Store, FileText, Layout, UserCircle } from 'lucide-react';
 
 interface AppCardProps {
   title: string;
@@ -12,6 +12,16 @@ interface AppCardProps {
 }
 
 const apps = [
+  {
+    id: 'my_kpi',
+    title: 'My KPI',
+    description: 'Theo dõi chỉ số hiệu năng và thưởng cá nhân',
+    category: 'Personal',
+    status: 'live',
+    icon: <UserCircle size={24} />,
+    color: 'from-violet-600 to-indigo-600',
+    target: 'my_kpi'
+  },
   {
     id: 'design',
     title: 'Design Search',
@@ -31,13 +41,14 @@ const apps = [
     color: 'from-blue-500 to-indigo-500'
   },
   {
-    id: 'hr',
-    title: 'HR Management',
-    description: 'Quản lý nhân sự, thông tin nhân viên',
-    category: 'Management',
-    status: 'development',
-    icon: <Users size={24} />,
-    color: 'from-purple-500 to-violet-500'
+    id: 'project_board',
+    title: 'Project Board',
+    description: 'Quản lý công việc theo mô hình Kanban (Trello-style)',
+    category: 'Utility',
+    status: 'live',
+    icon: <Layout size={24} />,
+    color: 'from-cyan-500 to-blue-500',
+    target: 'project_board'
   },
   {
     id: 'designer_report',
@@ -68,15 +79,6 @@ const apps = [
     icon: <Store size={24} />,
     color: 'from-orange-500 to-amber-500',
     target: 'dodgeprint'
-  },
-  {
-    id: 'orders',
-    title: 'Orders Manager',
-    description: 'Quản lý đơn hàng và khách hàng',
-    category: 'Management',
-    status: 'coming_soon',
-    icon: <ShoppingBag size={24} />,
-    color: 'from-slate-600 to-slate-500'
   },
   {
     id: 'admin',
@@ -111,14 +113,14 @@ const StatusBadge = ({ status }: { status: string }) => {
 };
 
 interface HomeViewProps {
-  onNavigate: (view: 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report') => void;
+  onNavigate: (view: 'home' | 'admin' | 'kpi' | 'my_kpi' | 'dodgeprint' | 'designer_report' | 'project_board') => void;
 }
 
 const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filters = ['All', 'Management', 'Creative', 'System', 'Utility'];
+  const filters = ['All', 'Personal', 'Management', 'Creative', 'System', 'Utility'];
 
   const filteredApps = apps.filter(app => {
     const matchesFilter = activeFilter === 'All' || app.category === activeFilter;

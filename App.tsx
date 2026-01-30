@@ -5,8 +5,10 @@ import AdminView from './components/AdminView';
 import KPIDashboardView from './components/KPIDashboardView';
 import DodgeprintAnalyticsView from './components/DodgeprintAnalyticsView';
 import DesignerReportView from './components/DesignerReportView';
+import ProjectBoardView from './components/ProjectBoardView';
+import MyKPIView from './components/MyKPIView';
 
-type ViewState = 'home' | 'admin' | 'kpi' | 'dodgeprint' | 'designer_report';
+type ViewState = 'home' | 'admin' | 'kpi' | 'my_kpi' | 'dodgeprint' | 'designer_report' | 'project_board';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -24,18 +26,22 @@ function App() {
         onNavigate={(view) => setCurrentView(view)} 
       />
 
-      <main className="relative z-10">
+      <main className="relative z-10 h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar">
         {currentView === 'home' && <HomeView onNavigate={(view) => setCurrentView(view)} />}
         {currentView === 'admin' && <AdminView />}
         {currentView === 'kpi' && <KPIDashboardView />}
+        {currentView === 'my_kpi' && <MyKPIView />}
         {currentView === 'dodgeprint' && <DodgeprintAnalyticsView />}
         {currentView === 'designer_report' && <DesignerReportView />}
+        {currentView === 'project_board' && <ProjectBoardView />}
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 py-6 text-center text-slate-600 text-sm">
-        <p>&copy; 2024 BAPECOM Internal Systems. All rights reserved.</p>
-      </footer>
+      {currentView !== 'project_board' && (
+        <footer className="relative z-10 py-6 text-center text-slate-600 text-sm">
+          <p>&copy; 2024 BAPECOM Internal Systems. All rights reserved.</p>
+        </footer>
+      )}
     </div>
   );
 }
