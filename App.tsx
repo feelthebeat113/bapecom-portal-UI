@@ -1,47 +1,82 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
+import React, { useState, useEffect } from 'react';
+import Sidebar from './components/Sidebar';
+import TopHeader from './components/TopHeader';
 import HomeView from './components/HomeView';
 import AdminView from './components/AdminView';
 import KPIDashboardView from './components/KPIDashboardView';
-import DodgeprintAnalyticsView from './components/DodgeprintAnalyticsView';
 import DesignerReportView from './components/DesignerReportView';
 import ProjectBoardView from './components/ProjectBoardView';
 import MyKPIView from './components/MyKPIView';
+import DesignSubmissionView from './components/DesignSubmissionView';
+import HistoryView from './components/HistoryView';
 
-type ViewState = 'home' | 'admin' | 'kpi' | 'my_kpi' | 'dodgeprint' | 'designer_report' | 'project_board';
+type ViewState = 
+  | 'home' | 'admin' | 'kpi' | 'my_kpi' | 'designer_report' 
+  | 'project_board' | 'design_search' | 'team_kpi' | 'hr_management' 
+  | 'orders_manager' | 'syno_files' | 'submit_design' | 'history' | 'pending';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  // Render placeholder cho các tính năng chưa có component cụ thể
+  const renderPlaceholder = (title: string) => (
+    <div className="flex flex-col items-center justify-center h-full p-20 text-center animate-fade">
+      <h2 className="text-8xl font-black tracking-tighter uppercase italic opacity-10">{title}.</h2>
+      <p className="text-kinetic-orange font-black uppercase tracking-[0.5em] mt-4">Module Initializing // Access Restricted</p>
+    </div>
+  );
+
+  const renderView = () => {
+    switch(currentView) {
+      case 'home': return <HomeView onNavigate={setCurrentView} />;
+      case 'admin': return <AdminView />;
+      case 'kpi': return <KPIDashboardView />;
+      case 'my_kpi': return <MyKPIView />;
+      case 'submit_design': return <DesignSubmissionView />;
+      case 'history': return <HistoryView />;
+      case 'project_board': return <ProjectBoardView />;
+      case 'design_search': return renderPlaceholder('Search');
+      case 'team_kpi': return renderPlaceholder('Team KPI');
+      case 'hr_management': return renderPlaceholder('Personnel');
+      case 'orders_manager': return renderPlaceholder('Orders');
+      case 'syno_files': return renderPlaceholder('Files');
+      case 'pending': return renderPlaceholder('Queue');
+      default: return <HomeView onNavigate={setCurrentView} />;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30">
-      {/* Background decoration */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] translate-y-1/3"></div>
-      </div>
-
-      <Navbar 
+    <div className={`flex h-screen w-full transition-colors duration-500 ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <Sidebar 
         currentView={currentView} 
-        onNavigate={(view) => setCurrentView(view)} 
+        onNavigate={setCurrentView} 
       />
 
-      <main className="relative z-10 h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar">
-        {currentView === 'home' && <HomeView onNavigate={(view) => setCurrentView(view)} />}
-        {currentView === 'admin' && <AdminView />}
-        {currentView === 'kpi' && <KPIDashboardView />}
-        {currentView === 'my_kpi' && <MyKPIView />}
-        {currentView === 'dodgeprint' && <DodgeprintAnalyticsView />}
-        {currentView === 'designer_report' && <DesignerReportView />}
-        {currentView === 'project_board' && <ProjectBoardView />}
-      </main>
+      <div className="flex-1 flex flex-col relative overflow-hidden">
+        <TopHeader theme={theme} onToggleTheme={toggleTheme} />
 
-      {/* Footer */}
-      {currentView !== 'project_board' && (
-        <footer className="relative z-10 py-6 text-center text-slate-600 text-sm">
-          <p>&copy; 2024 BAPECOM Internal Systems. All rights reserved.</p>
-        </footer>
-      )}
+        <main className="flex-1 overflow-y-auto custom-scrollbar relative z-10">
+          <div className="min-h-full">
+            {renderView()}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
